@@ -566,6 +566,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 330585546}
+  - component: {fileID: 330585549}
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
@@ -709,6 +710,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 100
   playerBody: {fileID: 24176222}
+--- !u!114 &330585549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28b3bee6b2389ab42acf6876e917cf3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionSource: {fileID: 330585546}
+  interactionRange: 2
+  interactionTime: 0
 --- !u!1 &374629728
 GameObject:
   m_ObjectHideFlags: 0
@@ -1414,8 +1430,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 252c2e103cfe7c34392dfa308a616447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dailyCountDown: 1
-  counterText: {fileID: 0}
+  dailyCountDown: 6
+  counterText: {fileID: 1543156259}
 --- !u!1 &1537721188
 GameObject:
   m_ObjectHideFlags: 0
