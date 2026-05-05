@@ -2,14 +2,16 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] CharacterController controller;
+    [SerializeField] CharacterController cc;
 
     [SerializeField] float walkSpeed = 12f;
     [SerializeField] float speed;
     [SerializeField] float speedMulti = 1.8f;
-    
-    float gravity = -9.81f;
+    [SerializeField] float jumpHeight = 5f;
+
+    [SerializeField] float gravity = -9.81f;
     Vector3 velocity;
+    bool isGrounded;
 
     private void Start()
     {
@@ -17,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
+        isGrounded = cc.isGrounded;
+
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
@@ -30,11 +34,20 @@ public class PlayerMovement : MonoBehaviour
         {
             speed = walkSpeed;
         }
+        
+        if (velocity.y < 0 && isGrounded)
+        {
+            velocity.y = -2;
+        }
 
-            controller.Move(move * speed * Time.deltaTime);
+        if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+        }
+        cc.Move(move * speed * Time.deltaTime);
 
         velocity.y += gravity * Time.deltaTime;
 
-        controller.Move(velocity * Time.deltaTime);
+        cc.Move(velocity * Time.deltaTime);
     }
 }
