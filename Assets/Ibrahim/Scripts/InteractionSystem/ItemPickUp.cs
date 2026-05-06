@@ -1,8 +1,22 @@
 using UnityEngine;
 
-public class PickupItem : MonoBehaviour
+public class ItemPickUp : MonoBehaviour
 {
     [SerializeField] PlayerHand playerHand;
+    [SerializeField] Animator animator;
+
+    Transform originalParent;
+    Vector3 originalPosition;
+    Quaternion originalRotation;
+
+    bool isPickedUp;
+
+    private void Start()
+    {
+        originalParent = transform.parent;
+        originalPosition = transform.position;
+        originalRotation = transform.rotation;
+    }
 
     public void PickUp()
     {
@@ -13,5 +27,32 @@ public class PickupItem : MonoBehaviour
         }
 
         playerHand.HoldItem(gameObject);
+        isPickedUp = true;
+
+        if (gameObject.name == "Gem2")
+        {
+            animator.Play("doorLock");
+        }
+    }
+
+    public void ReturnToOriginalPosition()
+    {
+        transform.SetParent(originalParent);
+        transform.position = originalPosition;
+        transform.rotation = originalRotation;
+
+        Collider itemCollider = GetComponent<Collider>();
+
+        if (itemCollider != null)
+            itemCollider.enabled = true;
+
+        isPickedUp = false;
+
+        if (gameObject.name == "Gem2")
+        {
+            animator.Play("doorOpen");
+        }
+
+        Debug.Log("Returned item to original position: " + gameObject.name);
     }
 }

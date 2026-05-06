@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         counterText.text = Mathf.CeilToInt(timer).ToString();
 
         // timer color changes when it decreases
-        if (timer  < 5)
+        if (timer  < 30)
         {
             counterText.color = Color.red;
         }

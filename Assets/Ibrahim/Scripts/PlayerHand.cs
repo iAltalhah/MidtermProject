@@ -3,8 +3,18 @@ using UnityEngine;
 public class PlayerHand : MonoBehaviour
 {
     [SerializeField] Transform handPoint;
+    [SerializeField] DropItemsOff dropItemsOff;
 
+    [SerializeField] Animator animator;
     GameObject currentItem;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            ReturnHeldItem();
+        }
+    }
 
     public bool IsFull()
     {
@@ -24,8 +34,48 @@ public class PlayerHand : MonoBehaviour
         item.transform.SetParent(handPoint);
         item.transform.localPosition = Vector3.zero;
         item.transform.localRotation = Quaternion.identity;
-        item.GetComponent<Collider>().enabled = false;
+
+        Collider itemCollider = item.GetComponent<Collider>();
+        if (itemCollider != null)
+            itemCollider.enabled = false;
 
         Debug.Log("Picked up: " + item.name);
+    }
+
+    public void DropItem()
+    {
+        if (currentItem == null)
+        {
+            Debug.Log("You are not holding anything.");
+            return;
+        }
+
+        bool itemWasPlaced = dropItemsOff.CheckTheItem(currentItem);
+
+        if (itemWasPlaced)
+        {
+            currentItem = null;
+        }
+    }
+    public void ReturnHeldItem()
+    {
+        if (currentItem == null)
+        {
+            Debug.Log("No item in hand.");
+            return;
+        }
+
+        ItemPickUp itemPickUp = currentItem.GetComponent<ItemPickUp>();
+
+        if (itemPickUp != null)
+        {
+            itemPickUp.ReturnToOriginalPosition();
+        }
+        if (currentItem.name == "Gem2")
+        {
+            animator.Play("doorOpen");
+        }
+
+        currentItem = null;
     }
 }
