@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public bool isHandFull = false;
+
     [SerializeField] float dailyCountDown;
 
     [SerializeField] TextMeshProUGUI counterText;
