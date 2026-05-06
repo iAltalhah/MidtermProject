@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float speedMulti = 1.8f;
     [SerializeField] float jumpHeight = 5f;
 
+    float sprintTimer = 5;
+
     [SerializeField] float gravity = -9.81f;
     Vector3 velocity;
     bool isGrounded;
@@ -28,7 +30,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            speed = walkSpeed * speedMulti;
+            sprintTimer -= Time.deltaTime;
+                speed = walkSpeed * speedMulti;
+            if (sprintTimer <= 0)
+            {
+                speed = walkSpeed;
+            }
         }
         else
         {

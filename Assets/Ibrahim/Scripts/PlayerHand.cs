@@ -5,7 +5,6 @@ public class PlayerHand : MonoBehaviour
     [SerializeField] Transform handPoint;
     [SerializeField] DropItemsOff dropItemsOff;
 
-    [SerializeField] Animator animator;
     GameObject currentItem;
 
     private void Update()
@@ -70,10 +69,6 @@ public class PlayerHand : MonoBehaviour
         if (itemPickUp != null)
         {
             itemPickUp.ReturnToOriginalPosition();
-        }
-        if (currentItem.name == "Gem2")
-        {
-            animator.Play("doorOpen");
         }
 
         currentItem = null;
