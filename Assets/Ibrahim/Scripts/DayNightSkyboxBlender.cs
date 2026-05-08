@@ -4,7 +4,7 @@ public class DayNightSkyboxBlender : MonoBehaviour
 {
     [SerializeField] private Material blendedSkyboxMaterial;
 
-    [SerializeField, Range(0f, 1f)]
+    [Range(0f, 1f)]
     public float blendAmount;
 
     [SerializeField] private Light sunLight;
@@ -17,12 +17,24 @@ public class DayNightSkyboxBlender : MonoBehaviour
 
     private void Start()
     {
-        RenderSettings.skybox = blendedSkyboxMaterial;
+        if (blendedSkyboxMaterial != null)
+        {
+            RenderSettings.skybox = blendedSkyboxMaterial;
+            ApplyBlend();
+        }
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        blendedSkyboxMaterial.SetFloat("_Blend", blendAmount);
+        ApplyBlend();
+    }
+
+    private void ApplyBlend()
+    {
+        if (blendedSkyboxMaterial != null)
+        {
+            blendedSkyboxMaterial.SetFloat("_Blend", blendAmount);
+        }
 
         if (sunLight != null)
         {

@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -10,19 +11,34 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI counterText;
 
     [SerializeField] DayNightSkyboxBlender dayNightSkyboxBlender;
+    [SerializeField] Animator FadeAnimator;
+    [SerializeField] Animator dayCycleAnim;
+
+    [SerializeField] PlayerMovement pm;
+    [SerializeField] Interactor interactor;
+    [SerializeField] Rewind re;
+
+    public bool isPlayerInside;
 
     float timer;
 
     private void Start()
     {
         timer = dailyCountDown;
+        FadeAnimator.Play("FadeOut");
+        counterText.text = Mathf.CeilToInt(timer).ToString();
     }
     private void Update()
     {
+        if (!isPlayerInside)
+        {
         timer -= Time.deltaTime;
         counterText.text = Mathf.CeilToInt(timer).ToString();
-
-        // ChangeDayCycle();
+        }
+        if(timer < 170 && timer < 169)
+        {
+            dayCycleAnim.SetBool("toNight", true);
+        }
 
         // timer color changes when it decreases
         if (timer  < 30)
@@ -44,35 +60,34 @@ public class GameManager : MonoBehaviour
 
     public void ResetTheDay()
     {
-        dayNightSkyboxBlender.blendAmount = 0f;
-        timer = dailyCountDown;
+        StartCoroutine(FadeInDelay());
     }
 
-  /*  void ChangeDayCycle()
+    IEnumerator FadeInDelay()
     {
-        if (timer < 170 && timer > 161)
-        {
-            dayNightSkyboxBlender.blendAmount = 0.5f;
-        }
-        else if (timer < 160 && timer > 151)
-        {
-            dayNightSkyboxBlender.blendAmount = 0.4f;
+        DisablePlayerComponents();
+        FadeAnimator.Play("FadeIn");
+        yield return new WaitForSeconds(1);
+        timer = dailyCountDown;
+        counterText.text = Mathf.CeilToInt(timer).ToString();
+        dayNightSkyboxBlender.blendAmount = 0f;
+        dayCycleAnim.Play("nightToDay");
+        dayCycleAnim.SetBool("toNight", false);
+        yield return new WaitForSeconds(1);
+        FadeAnimator.Play("FadeOut");
+        EnablePlayerComponents();
+    }
 
-        }
-        else if (timer < 150 && timer > 141)
-        {
-            dayNightSkyboxBlender.blendAmount = 0.1f;
-
-        }
-        else if (timer < 140 && timer > 131)
-        {
-            dayNightSkyboxBlender.blendAmount = 1f;
-
-        }
-        else if (timer < 130 && timer > 121)
-        {
-            dayNightSkyboxBlender.blendAmount = 0.5f;
-
-        }
-    }*/
+    void DisablePlayerComponents()
+    {
+        pm.enabled = false;
+        interactor.enabled = false;
+        re.enabled = false;
+    }
+    void EnablePlayerComponents()
+    {
+        pm.enabled = true;
+        interactor.enabled = true;
+        re.enabled = true;
+    }
 }
