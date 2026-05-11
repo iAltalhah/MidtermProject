@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public int stoneCount;
+
     public bool isHandFull = false;
 
     [SerializeField] float dailyCountDown;

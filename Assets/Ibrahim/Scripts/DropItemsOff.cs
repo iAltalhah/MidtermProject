@@ -11,6 +11,11 @@ public class DropItemsOff : MonoBehaviour
     [SerializeField] PlayerMovement playerMovement;
 
     [SerializeField] Rewind rewind;
+    /*
+    [SerializeField] Transform gemTree1Position;
+    [SerializeField] Transform gemTree2Position;
+    [SerializeField] Transform gemTree3Position;
+    */
 
     public bool CheckTheItem(GameObject gem)
     {
@@ -42,6 +47,17 @@ public class DropItemsOff : MonoBehaviour
                 SnapItem(gem, gemFivePosition);
                 return true;
 
+/*
+            case "Stone1":
+                SnapItem(gem, gemTree1Position);
+                return true;
+            case "Stone2":
+                SnapItem(gem, gemTree2Position);
+                return true;
+            case "Stone3":
+                SnapItem(gem, gemTree3Position);
+                return true;
+*/
             default:
                 Debug.Log("This item does not belong here: " + gem.name);
                 return false;

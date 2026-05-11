@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float speedMulti = 1.8f;
     [SerializeField] float jumpHeight = 5f;
 
+    public bool canMove = true;
 
     public int gemsCollected = 0;
 
@@ -43,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = -2;
         }
+        if (canMove)
+        {
 
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded && gemsCollected >= 2)
         {
@@ -53,5 +56,6 @@ public class PlayerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         cc.Move(velocity * Time.deltaTime);
+        }
     }
 }
