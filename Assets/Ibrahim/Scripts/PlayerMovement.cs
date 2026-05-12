@@ -9,7 +9,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float speedMulti = 1.8f;
     [SerializeField] float jumpHeight = 5f;
 
-    float sprintTimer = 5;
+    public bool canMove = true;
+
+    public int gemsCollected = 0;
 
     [SerializeField] float gravity = -9.81f;
 
@@ -17,8 +19,6 @@ public class PlayerMovement : MonoBehaviour
 
     bool isGrounded;
 
-    // التحكم بالحركة
-    public bool canMove = true;
 
     private void Start()
     {
@@ -40,40 +40,50 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        // Sprint
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            sprintTimer -= Time.deltaTime;
-
-            speed = walkSpeed * speedMulti;
-
-            if (sprintTimer <= 0)
+        if (Input.GetKey(KeyCode.LeftShift) && isGrounded && gemsCollected >= 1)
+            // Sprint
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                speed = walkSpeed;
+                //sprintTimer -= Time.deltaTime;
+
+                speed = walkSpeed * speedMulti;
+
+              //  if (sprintTimer <= 0)
+               // {
+                   // speed = walkSpeed;
+//}
+               // if (Input.GetKey(KeyCode.LeftShift) && gemsCollected >= 1)
+                //{
+                   // speed = walkSpeed * speedMulti;
+
+                }
+                else
+                {
+                    speed = walkSpeed;
+                }
+
+                // Gravity
+                if (velocity.y < 0 && isGrounded)
+                {
+                    velocity.y = -2;
+                }
+                if (canMove)
+                {
+
+                    // Jump
+                    if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+                        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && gemsCollected >= 2)
+                        {
+                            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+                        }
+
+                    // حركة اللاعب
+                    cc.Move(move * speed * Time.deltaTime);
+
+                    velocity.y += gravity * Time.deltaTime;
+
+                    cc.Move(velocity * Time.deltaTime);
+                }
             }
-        }
-        else
-        {
-            speed = walkSpeed;
-        }
-
-        // Gravity
-        if (velocity.y < 0 && isGrounded)
-        {
-            velocity.y = -2;
-        }
-
-        // Jump
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
-        }
-
-        // حركة اللاعب
-        cc.Move(move * speed * Time.deltaTime);
-
-        velocity.y += gravity * Time.deltaTime;
-
-        cc.Move(velocity * Time.deltaTime);
     }
 }
