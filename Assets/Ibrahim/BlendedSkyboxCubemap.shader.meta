@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 5420b5caa7530304f8b31d3539e09054
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _DayFront: {fileID: 2800000, guid: db891bbb0f035a340a64f1550499d24b, type: 3}
+  - _DayBack: {fileID: 2800000, guid: 988a47c87043b1f4597329d87c8c5f9e, type: 3}
+  - _DayLeft: {fileID: 2800000, guid: 1ded1ac4a932ce548b131efe140dee3d, type: 3}
+  - _DayRight: {fileID: 2800000, guid: 4f6bec75bfe65ad49a0826debe902b30, type: 3}
+  - _DayUp: {fileID: 2800000, guid: d8abefee4b4a16546abf8b0a732a7e40, type: 3}
+  - _DayDown: {fileID: 2800000, guid: ca936d5ad9282044293249963704b9ce, type: 3}
+  - _NightFront: {fileID: 2800000, guid: 6b14f3b4e0f9b0f48977fd2d27e03dfa, type: 3}
+  - _NightBack: {fileID: 2800000, guid: e65a7ad9e078ebe46a18ab96337a8d63, type: 3}
+  - _NightLeft: {fileID: 2800000, guid: 1b28b1ed2ef4f114394b2dde7b05f3fe, type: 3}
+  - _NightRight: {fileID: 2800000, guid: c089d8f141d8cf8418c285d4cee57341, type: 3}
+  - _NightUp: {fileID: 2800000, guid: c7b66e97c44826544a44bd8d9857c7ec, type: 3}
+  - _NightDown: {fileID: 2800000, guid: 6b08df31452aace4481829fe706777c7, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
