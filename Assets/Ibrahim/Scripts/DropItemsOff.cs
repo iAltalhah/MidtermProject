@@ -8,6 +8,10 @@ public class DropItemsOff : MonoBehaviour
     [SerializeField] Transform gemFourPosition;
     [SerializeField] Transform gemFivePosition;
 
+    [SerializeField] PlayerMovement playerMovement;
+
+    [SerializeField] Rewind rewind;
+
     public bool CheckTheItem(GameObject gem)
     {
         if (gem == null)
@@ -51,5 +55,11 @@ public class DropItemsOff : MonoBehaviour
         gem.transform.localRotation = Quaternion.identity;
 
         Debug.Log("Placed item: " + gem.name);
+        playerMovement.gemsCollected++;
+
+        if (playerMovement.gemsCollected >= 3)
+        {
+            rewind.CanRewind();
+        }
     }
 }
