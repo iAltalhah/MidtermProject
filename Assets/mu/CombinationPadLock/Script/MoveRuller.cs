@@ -9,9 +9,10 @@ public class MoveRuller : MonoBehaviour
 
     [HideInInspector]
     public int[] numberArray = { 0, 0, 0, 0 };
-
+   
     private PadLockPassword lockPassword;
-
+    public bool canRotate = false;
+   
     void Start()
     {
         lockPassword = GetComponent<PadLockPassword>();

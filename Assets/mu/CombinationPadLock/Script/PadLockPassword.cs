@@ -10,7 +10,6 @@ public class PadLockPassword : MonoBehaviour
 
     // الباب
     public GameObject door;
-
     // عشان ما يعيد الفتح كل فريم
     private bool isUnlocked = false;
 
@@ -26,7 +25,7 @@ public class PadLockPassword : MonoBehaviour
             return;
 
         // التحقق من كلمة السر
-        if (_moveRull._numberArray.SequenceEqual(_numberPassword))
+        if (_moveRull.numberArray.SequenceEqual(_numberPassword))
         {
             Debug.Log("Password correct");
 
@@ -36,13 +35,13 @@ public class PadLockPassword : MonoBehaviour
             isUnlocked = true;
 
             // يوقف الإضاءة
-            for (int i = 0; i < _moveRull._rullers.Count; i++)
+            for (int i = 0; i < _moveRull.rullers.Count; i++)
             {
-                _moveRull._rullers[i]
+                _moveRull.rullers[i]
                     .GetComponent<PadLockEmissionColor>()
                     ._isSelect = false;
 
-                _moveRull._rullers[i]
+                _moveRull.rullers[i]
                     .GetComponent<PadLockEmissionColor>()
                     .BlinkingMaterial();
             }
