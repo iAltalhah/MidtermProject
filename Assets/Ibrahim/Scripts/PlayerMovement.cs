@@ -9,7 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float speedMulti = 1.8f;
     [SerializeField] float jumpHeight = 5f;
 
-    float sprintTimer = 5;
+
+    public int gemsCollected = 0;
 
     [SerializeField] float gravity = -9.81f;
 
@@ -51,6 +52,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 speed = walkSpeed;
             }
+        if (Input.GetKey(KeyCode.LeftShift) && gemsCollected >= 1)
+        {
+                speed = walkSpeed * speedMulti;
+            
         }
         else
         {
@@ -65,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Jump
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if(Input.GetKeyDown(KeyCode.Space) && isGrounded && gemsCollected >= 2)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }

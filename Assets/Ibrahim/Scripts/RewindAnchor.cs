@@ -18,7 +18,6 @@ public class RewindAnchor : MonoBehaviour
 {
     [SerializeField] Transform player;
 
-    [Header("Trail Settings")]
     [SerializeField] float delay = 4f;
     [SerializeField] float recordInterval = 0.05f;
     [SerializeField] float minDistanceToRecord = 0.05f;

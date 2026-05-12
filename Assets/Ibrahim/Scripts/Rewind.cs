@@ -11,6 +11,9 @@ public class Rewind : MonoBehaviour
     CharacterController characterController;
     PlayerMovement playerMovement;
 
+    bool canRewind = false;
+    int gemsCount;
+
     bool isRewinding;
 
     void Start()
@@ -20,11 +23,12 @@ public class Rewind : MonoBehaviour
 
         if (playerMovement == null)
             playerMovement = GetComponent<PlayerMovement>();
+
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(rewindKey) && !isRewinding)
+        if (Input.GetKeyDown(rewindKey) && !isRewinding && canRewind)
         {
             StartCoroutine(RewindToAnchor());
         }
@@ -69,5 +73,10 @@ public class Rewind : MonoBehaviour
             playerMovement.enabled = true;
 
         isRewinding = false;
+    }
+
+    public void CanRewind()
+    {
+         canRewind = true;
     }
 }
