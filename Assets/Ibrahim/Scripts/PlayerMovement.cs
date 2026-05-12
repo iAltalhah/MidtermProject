@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float speedMulti = 1.8f;
     [SerializeField] float jumpHeight = 5f;
 
+    public bool canMove = true;
 
     public int gemsCollected = 0;
 
@@ -41,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
+        if (Input.GetKey(KeyCode.LeftShift) && isGrounded && gemsCollected >= 1)
         // Sprint
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -67,6 +69,8 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = -2;
         }
+        if (canMove)
+        {
 
         // Jump
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
@@ -81,5 +85,6 @@ public class PlayerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         cc.Move(velocity * Time.deltaTime);
+        }
     }
 }
