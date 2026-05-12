@@ -14,15 +14,27 @@ public class PlayerMovement : MonoBehaviour
     public int gemsCollected = 0;
 
     [SerializeField] float gravity = -9.81f;
+
     Vector3 velocity;
+
     bool isGrounded;
+
+    // التحكم بالحركة
+    public bool canMove = true;
 
     private void Start()
     {
         speed = walkSpeed;
     }
+
     void Update()
     {
+        // إذا الحركة مقفلة
+        if (!canMove)
+        {
+            return;
+        }
+
         isGrounded = cc.isGrounded;
 
         float x = Input.GetAxisRaw("Horizontal");
@@ -31,6 +43,18 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
 
         if (Input.GetKey(KeyCode.LeftShift) && isGrounded && gemsCollected >= 1)
+        // Sprint
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            sprintTimer -= Time.deltaTime;
+
+            speed = walkSpeed * speedMulti;
+
+            if (sprintTimer <= 0)
+            {
+                speed = walkSpeed;
+            }
+        if (Input.GetKey(KeyCode.LeftShift) && gemsCollected >= 1)
         {
                 speed = walkSpeed * speedMulti;
             
@@ -39,7 +63,8 @@ public class PlayerMovement : MonoBehaviour
         {
             speed = walkSpeed;
         }
-        
+
+        // Gravity
         if (velocity.y < 0 && isGrounded)
         {
             velocity.y = -2;
@@ -47,10 +72,14 @@ public class PlayerMovement : MonoBehaviour
         if (canMove)
         {
 
+        // Jump
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded && gemsCollected >= 2)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
+
+        // حركة اللاعب
         cc.Move(move * speed * Time.deltaTime);
 
         velocity.y += gravity * Time.deltaTime;
