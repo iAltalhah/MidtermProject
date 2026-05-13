@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public int stoneCount;
+
     public bool isHandFull = false;
 
     [SerializeField] float dailyCountDown;
@@ -18,30 +20,47 @@ public class GameManager : MonoBehaviour
     [SerializeField] Interactor interactor;
     [SerializeField] Rewind re;
 
+    [Header("Environment Lighting")]
+    [SerializeField] private float dayAmbientIntensity = 1f;
+    [SerializeField] private float nightAmbientIntensity = 0.2f;
+    [SerializeField] private float ambientTransitionDuration = 3f;
+
     public bool isPlayerInside;
 
     float timer;
 
+    private bool nightTransitionStarted = false;
+    private Coroutine ambientLightCoroutine;
+
     private void Start()
     {
         timer = dailyCountDown;
+
+        RenderSettings.ambientIntensity = dayAmbientIntensity;
+
         FadeAnimator.Play("FadeOut");
         counterText.text = Mathf.CeilToInt(timer).ToString();
     }
+
     private void Update()
     {
         if (!isPlayerInside)
         {
-        timer -= Time.deltaTime;
-        counterText.text = Mathf.CeilToInt(timer).ToString();
+            timer -= Time.deltaTime;
+            counterText.text = Mathf.CeilToInt(timer).ToString();
         }
-        if(timer < 170 && timer < 169)
+
+        if (timer <= 169f && nightTransitionStarted == false)
         {
+            nightTransitionStarted = true;
+
             dayCycleAnim.SetBool("toNight", true);
+
+            StartAmbientLightTransition(nightAmbientIntensity);
         }
 
         // timer color changes when it decreases
-        if (timer  < 30)
+        if (timer < 30)
         {
             counterText.color = Color.red;
         }
@@ -66,16 +85,61 @@ public class GameManager : MonoBehaviour
     IEnumerator FadeInDelay()
     {
         DisablePlayerComponents();
+
         FadeAnimator.Play("FadeIn");
+
         yield return new WaitForSeconds(1);
+
         timer = dailyCountDown;
         counterText.text = Mathf.CeilToInt(timer).ToString();
+
+        nightTransitionStarted = false;
+
         dayNightSkyboxBlender.blendAmount = 0f;
+
+        RenderSettings.ambientIntensity = dayAmbientIntensity;
+
         dayCycleAnim.Play("nightToDay");
         dayCycleAnim.SetBool("toNight", false);
+
         yield return new WaitForSeconds(1);
+
         FadeAnimator.Play("FadeOut");
+
         EnablePlayerComponents();
+    }
+
+    private void StartAmbientLightTransition(float targetIntensity)
+    {
+        if (ambientLightCoroutine != null)
+        {
+            StopCoroutine(ambientLightCoroutine);
+        }
+
+        ambientLightCoroutine = StartCoroutine(FadeAmbientLight(targetIntensity));
+    }
+
+    private IEnumerator FadeAmbientLight(float targetIntensity)
+    {
+        float startIntensity = RenderSettings.ambientIntensity;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < ambientTransitionDuration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float t = elapsedTime / ambientTransitionDuration;
+
+            RenderSettings.ambientIntensity = Mathf.Lerp(
+                startIntensity,
+                targetIntensity,
+                t
+            );
+
+            yield return null;
+        }
+
+        RenderSettings.ambientIntensity = targetIntensity;
     }
 
     void DisablePlayerComponents()
@@ -84,6 +148,7 @@ public class GameManager : MonoBehaviour
         interactor.enabled = false;
         re.enabled = false;
     }
+
     void EnablePlayerComponents()
     {
         pm.enabled = true;

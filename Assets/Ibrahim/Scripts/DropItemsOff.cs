@@ -6,7 +6,7 @@ public class DropItemsOff : MonoBehaviour
     [SerializeField] Transform gemTwoPosition;
     [SerializeField] Transform gemThreePosition;
     [SerializeField] Transform gemFourPosition;
-    [SerializeField] Transform gemFivePosition;
+    //[SerializeField] Transform gemFivePosition;
 
     [SerializeField] PlayerMovement playerMovement;
 
@@ -38,9 +38,9 @@ public class DropItemsOff : MonoBehaviour
                 SnapItem(gem, gemFourPosition);
                 return true;
 
-            case "Gem5":
-                SnapItem(gem, gemFivePosition);
-                return true;
+            //case "Gem5":
+              //  SnapItem(gem, gemFivePosition);
+                //return true;
 
             default:
                 Debug.Log("This item does not belong here: " + gem.name);

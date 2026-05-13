@@ -73,4 +73,13 @@ public class PlayerHand : MonoBehaviour
 
         currentItem = null;
     }
+    public GameObject GetCurrentItem()
+    {
+        return currentItem;
+    }
+
+    public void ClearCurrentItem()
+    {
+        currentItem = null;
+    }
 }
