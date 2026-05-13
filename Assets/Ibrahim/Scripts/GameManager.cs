@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float nightAmbientIntensity = 0.2f;
     [SerializeField] private float ambientTransitionDuration = 3f;
 
+    [SerializeField] Animator door2Anim;
+
+
     public bool isPlayerInside;
 
     float timer;
@@ -41,9 +44,22 @@ public class GameManager : MonoBehaviour
         FadeAnimator.Play("FadeOut");
         counterText.text = Mathf.CeilToInt(timer).ToString();
     }
+    public void AddStone() {
+
+        stoneCount++;
+
+        if (stoneCount >= 3)
+        {
+            door2Anim.Play("door2Open");
+        }
+
+
+        Debug.Log("Stone Count is now: " + stoneCount);
+    }
 
     private void Update()
     {
+
         if (!isPlayerInside)
         {
             timer -= Time.deltaTime;
@@ -155,4 +171,6 @@ public class GameManager : MonoBehaviour
         interactor.enabled = true;
         re.enabled = true;
     }
+
+
 }

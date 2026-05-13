@@ -5,16 +5,17 @@ public class StonePuzzle : MonoBehaviour, IInteractable
     [Header("References")]
     [SerializeField] PlayerHand playerHand;
     [SerializeField] Rewind rewind;
+    [SerializeField] GameManager gameManager;
 
     [Header("Stone Locations")]
     [SerializeField] Transform stoneLocation1;
     [SerializeField] Transform stoneLocation2;
     [SerializeField] Transform stoneLocation3;
 
+
     [Header("Prompt")]
     [SerializeField] string prompt = "Press E to place stone";
 
-    int stonesPlaced;
 
     public string InteractionPrompt => prompt;
 
@@ -50,16 +51,6 @@ public class StonePuzzle : MonoBehaviour, IInteractable
 
         playerHand.ClearCurrentItem();
 
-        stonesPlaced++;
-
-        if (stonesPlaced >= 3)
-        {
-            Debug.Log("Stone puzzle completed.");
-
-            // Use whatever function you made in your Rewind script.
-            // Example:
-            // rewind.CanRewind();
-        }
     }
 
     Transform GetCorrectStoneLocation(string stoneName)
@@ -87,5 +78,8 @@ public class StonePuzzle : MonoBehaviour, IInteractable
         stone.transform.localRotation = Quaternion.identity;
 
         Debug.Log("Placed stone: " + stone.name);
+
+        gameManager.AddStone();
+
     }
 }

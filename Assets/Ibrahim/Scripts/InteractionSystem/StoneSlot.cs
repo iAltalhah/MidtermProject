@@ -3,6 +3,7 @@ using UnityEngine;
 public class StoneSlot : MonoBehaviour
 {
     [SerializeField] PlayerHand playerHand;
+    [SerializeField] GameManager gameManager;
 
     [Header("Slot Settings")]
     [SerializeField] string acceptedStoneName;
@@ -10,6 +11,9 @@ public class StoneSlot : MonoBehaviour
 
     bool isFilled;
 
+    /// <summary>
+    /// Called by the Interactable UnityEvent when the player interacts with this slot.
+    /// </summary>
     public void PlaceStone()
     {
         if (isFilled)
@@ -31,11 +35,8 @@ public class StoneSlot : MonoBehaviour
             Debug.Log("Wrong stone. This slot accepts: " + acceptedStoneName);
 
             ItemPickUp itemPickUp = heldItem.GetComponent<ItemPickUp>();
-
             if (itemPickUp != null)
-            {
                 itemPickUp.ReturnToOriginalPosition();
-            }
 
             playerHand.ClearCurrentItem();
             return;
@@ -43,8 +44,9 @@ public class StoneSlot : MonoBehaviour
 
         SnapStone(heldItem);
         playerHand.ClearCurrentItem();
-
         isFilled = true;
+
+        gameManager.AddStone();
 
         Debug.Log("Correct stone placed: " + heldItem.name);
     }
@@ -56,7 +58,6 @@ public class StoneSlot : MonoBehaviour
         stone.transform.localRotation = Quaternion.identity;
 
         Collider stoneCollider = stone.GetComponent<Collider>();
-
         if (stoneCollider != null)
             stoneCollider.enabled = false;
     }

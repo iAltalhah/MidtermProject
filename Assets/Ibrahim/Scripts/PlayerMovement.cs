@@ -40,23 +40,8 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        if (Input.GetKey(KeyCode.LeftShift) && isGrounded && gemsCollected >= 1)
-            // Sprint
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                //sprintTimer -= Time.deltaTime;
+        if (Input.GetKey(KeyCode.LeftShift) && isGrounded && gemsCollected >= 1) speed = walkSpeed * speedMulti;
 
-                speed = walkSpeed * speedMulti;
-
-              //  if (sprintTimer <= 0)
-               // {
-                   // speed = walkSpeed;
-//}
-               // if (Input.GetKey(KeyCode.LeftShift) && gemsCollected >= 1)
-                //{
-                   // speed = walkSpeed * speedMulti;
-
-                }
                 else
                 {
                     speed = walkSpeed;

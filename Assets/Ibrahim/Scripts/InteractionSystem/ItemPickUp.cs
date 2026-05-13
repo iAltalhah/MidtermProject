@@ -31,7 +31,7 @@ public class ItemPickUp : MonoBehaviour
 
         if (gameObject.name == "Gem2")
         {
-            animator.Play("doorLock");
+            animator.Play("closeDooe1");
         }
     }
 
@@ -50,7 +50,7 @@ public class ItemPickUp : MonoBehaviour
 
         if (gameObject.name == "Gem2")
         {
-            animator.Play("doorOpen");
+            animator.Play("door1Open");
         }
 
         Debug.Log("Returned item to original position: " + gameObject.name);
