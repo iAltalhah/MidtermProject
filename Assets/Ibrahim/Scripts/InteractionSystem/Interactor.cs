@@ -9,6 +9,8 @@ public class Interactor : MonoBehaviour
 
     IInteractable currentInteractable; // to check which interactable is it
 
+
+
     void Update()
     {
         CheckForInteractable();
@@ -19,6 +21,7 @@ public class Interactor : MonoBehaviour
         }
     }
 
+
     void CheckForInteractable()
     {
         Ray ray = new Ray(interactionSource.position, interactionSource.forward); // create raycast and its range
@@ -26,6 +29,7 @@ public class Interactor : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, interactionRange)) // hit is the object we are hitting with the ray
         {
             IInteractable interactable = hit.collider.GetComponentInParent<IInteractable>(); // we define a new var and assign the interactable conponent to it
+
 
             if (interactable != null && interactable.CanInteract())
             {

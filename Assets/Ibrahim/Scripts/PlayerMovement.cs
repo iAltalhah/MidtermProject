@@ -10,18 +10,37 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpHeight = 5f;
 
 
+    [SerializeField] private GameObject objectToToggle;
+
+    public bool canMove = true;
+
     public int gemsCollected = 0;
 
     [SerializeField] float gravity = -9.81f;
+
     Vector3 velocity;
+
     bool isGrounded;
+
 
     private void Start()
     {
         speed = walkSpeed;
     }
+
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            objectToToggle.SetActive(!objectToToggle.activeSelf);
+        }
+
+        // إذا الحركة مقفلة
+        if (!canMove)
+        {
+            return;
+        }
+
         isGrounded = cc.isGrounded;
 
         float x = Input.GetAxisRaw("Horizontal");
@@ -29,29 +48,32 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        if (Input.GetKey(KeyCode.LeftShift) && gemsCollected >= 1)
-        {
-                speed = walkSpeed * speedMulti;
-            
-        }
-        else
-        {
-            speed = walkSpeed;
-        }
-        
-        if (velocity.y < 0 && isGrounded)
-        {
-            velocity.y = -2;
-        }
+        if (Input.GetKey(KeyCode.LeftShift) && isGrounded) speed = walkSpeed * speedMulti;
 
-        if(Input.GetKeyDown(KeyCode.Space) && isGrounded && gemsCollected >= 2)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
-        }
-        cc.Move(move * speed * Time.deltaTime);
+                else
+                {
+                    speed = walkSpeed;
+                }
 
-        velocity.y += gravity * Time.deltaTime;
+                // Gravity
+                if (velocity.y < 0 && isGrounded)
+                {
+                    velocity.y = -2;
+                }
+                if (canMove)
+                {
+                        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && gemsCollected >= 1)
+                        {
+                            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+                        }
 
-        cc.Move(velocity * Time.deltaTime);
+                    // حركة اللاعب
+                    cc.Move(move * speed * Time.deltaTime);
+
+                    velocity.y += gravity * Time.deltaTime;
+
+                    cc.Move(velocity * Time.deltaTime);
+                }
+            }
+
     }
-}

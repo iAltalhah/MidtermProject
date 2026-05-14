@@ -6,12 +6,17 @@ public class DropItemsOff : MonoBehaviour
     [SerializeField] Transform gemTwoPosition;
     [SerializeField] Transform gemThreePosition;
     [SerializeField] Transform gemFourPosition;
-    [SerializeField] Transform gemFivePosition;
+    //[SerializeField] Transform gemFivePosition;
 
     [SerializeField] PlayerMovement playerMovement;
 
     [SerializeField] Rewind rewind;
 
+    [SerializeField] Animator lastDoor;
+
+
+    [SerializeField] GameObject jumpText;
+    [SerializeField] GameObject rewindText;
     public bool CheckTheItem(GameObject gem)
     {
         if (gem == null)
@@ -38,9 +43,9 @@ public class DropItemsOff : MonoBehaviour
                 SnapItem(gem, gemFourPosition);
                 return true;
 
-            case "Gem5":
-                SnapItem(gem, gemFivePosition);
-                return true;
+            //case "Gem5":
+              //  SnapItem(gem, gemFivePosition);
+                //return true;
 
             default:
                 Debug.Log("This item does not belong here: " + gem.name);
@@ -57,9 +62,21 @@ public class DropItemsOff : MonoBehaviour
         Debug.Log("Placed item: " + gem.name);
         playerMovement.gemsCollected++;
 
-        if (playerMovement.gemsCollected >= 3)
+        if (playerMovement.gemsCollected >= 1)
         {
+            jumpText.SetActive(true);
+        }
+
+
+        if (playerMovement.gemsCollected >= 2)
+        {
+            rewindText.SetActive(true);
             rewind.CanRewind();
+        }
+
+        if(playerMovement.gemsCollected >= 4)
+        {
+            lastDoor.Play("last_door_open");
         }
     }
 }
