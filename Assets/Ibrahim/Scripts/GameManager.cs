@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int stoneCount;
+    [SerializeField] int numberOfDays = 7;
 
     public bool isHandFull = false;
 
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Animator door2Anim;
 
+    public TextMeshProUGUI daysLeft;
+
 
     public bool isPlayerInside;
 
@@ -37,6 +40,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+
+        daysLeft.text = numberOfDays.ToString();
+
         timer = dailyCountDown;
 
         RenderSettings.ambientIntensity = dayAmbientIntensity;
@@ -66,7 +72,7 @@ public class GameManager : MonoBehaviour
             counterText.text = Mathf.CeilToInt(timer).ToString();
         }
 
-        if (timer <= 169f && nightTransitionStarted == false)
+        if (timer <= 150f && nightTransitionStarted == false)
         {
             nightTransitionStarted = true;
 
@@ -118,11 +124,26 @@ public class GameManager : MonoBehaviour
         dayCycleAnim.Play("nightToDay");
         dayCycleAnim.SetBool("toNight", false);
 
+        numberOfDays--;
+
+        if (numberOfDays <= 0)
+        {
+            GameLost();
+
+        }
+
+        daysLeft.text = numberOfDays.ToString();
+
         yield return new WaitForSeconds(1);
 
         FadeAnimator.Play("FadeOut");
 
         EnablePlayerComponents();
+
+        if(numberOfDays <= 0)
+        {
+            GameLost();
+        }
     }
 
     private void StartAmbientLightTransition(float targetIntensity)
@@ -172,5 +193,16 @@ public class GameManager : MonoBehaviour
         re.enabled = true;
     }
 
+    public void GameLost()
+    {
+
+    }
+
+    public void DamagePlayer()
+    {
+
+        timer -= 10;
+        counterText.text = Mathf.CeilToInt(timer).ToString();
+    }
 
 }

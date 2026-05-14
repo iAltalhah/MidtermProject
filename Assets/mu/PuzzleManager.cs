@@ -5,31 +5,38 @@ public class PuzzleManager : MonoBehaviour
     public static PuzzleManager instance;
 
     public int[] correctOrder;
-
     private int currentIndex = 0;
 
-    public GameObject door;
+    public Animator door3Anim;
+
+    [Header("Puzzle Tiles")]
+    [SerializeField] private Transform tilesParent;
+    private Collider[] tileColliders;
 
     void Awake()
     {
         instance = this;
     }
 
+    void Start()
+    {
+        tileColliders = tilesParent.GetComponentsInChildren<Collider>();
+    }
+
     public void CheckTile(int number)
     {
-        // إذا الرقم صح
         if (number == correctOrder[currentIndex])
         {
             Debug.Log("Correct!");
 
             currentIndex++;
 
-            // خلص اللغز
             if (currentIndex >= correctOrder.Length)
             {
                 Debug.Log("Puzzle Solved!");
 
                 OpenDoor();
+                DisableAllTileCollisions();
             }
         }
         else
@@ -42,6 +49,14 @@ public class PuzzleManager : MonoBehaviour
 
     void OpenDoor()
     {
-        door.SetActive(false);
+        door3Anim.Play("door3Open");
+    }
+
+    void DisableAllTileCollisions()
+    {
+        foreach (Collider col in tileColliders)
+        {
+            col.enabled = false;
+        }
     }
 }

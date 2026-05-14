@@ -306,8 +306,9 @@ MonoBehaviour:
   speed: 0
   speedMulti: 1.6
   jumpHeight: 6
-  gravity: -50
   canMove: 1
+  gemsCollected: 0
+  gravity: -50
 --- !u!143 &24176224
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2596,7 +2597,8 @@ MonoBehaviour:
   gemTwoPosition: {fileID: 1127772556}
   gemThreePosition: {fileID: 348698537}
   gemFourPosition: {fileID: 341891159}
-  gemFivePosition: {fileID: 1464981173}
+  playerMovement: {fileID: 0}
+  rewind: {fileID: 0}
 --- !u!4 &452570075
 Transform:
   m_ObjectHideFlags: 0
@@ -4628,9 +4630,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 252c2e103cfe7c34392dfa308a616447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stoneCount: 0
+  numberOfDays: 7
   isHandFull: 0
   dailyCountDown: 120
   counterText: {fileID: 1543156259}
+  dayNightSkyboxBlender: {fileID: 0}
+  FadeAnimator: {fileID: 0}
+  dayCycleAnim: {fileID: 0}
+  pm: {fileID: 0}
+  interactor: {fileID: 0}
+  re: {fileID: 0}
+  dayAmbientIntensity: 1
+  nightAmbientIntensity: 0.2
+  ambientTransitionDuration: 3
+  door2Anim: {fileID: 0}
+  daysLeft: {fileID: 0}
+  isPlayerInside: 0
 --- !u!1 &1543156257
 GameObject:
   m_ObjectHideFlags: 0
@@ -4955,7 +4971,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleManager
   correctOrder: 0200000006000000070000000a000000
-  door: {fileID: 102220416}
+  door3Anim: {fileID: 0}
+  tilesParent: {fileID: 0}
 --- !u!4 &1672044254
 Transform:
   m_ObjectHideFlags: 0
@@ -5868,8 +5885,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d235bc7d459c569488d2f1c9be27b6e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveRuller
-  _rullers: []
-  _numberArray: 00000000000000000000000000000000
+  rullers: []
+  numberArray: 00000000000000000000000000000000
   canRotate: 0
 --- !u!1 &1887403687
 GameObject:
@@ -6076,7 +6093,7 @@ Transform:
   m_GameObject: {fileID: 1925885555}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.74, y: -1.6037, z: -33.53}
+  m_LocalPosition: {x: 4.74, y: -0.79, z: -33.53}
   m_LocalScale: {x: 1, y: 2.0423, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

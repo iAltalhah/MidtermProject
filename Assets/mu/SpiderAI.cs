@@ -16,6 +16,8 @@ public class SpiderAI : MonoBehaviour
     private bool canChase = false;
     private bool canAttack = false;
 
+    [SerializeField] GameManager gameManager;
+
     void Start()
     {
         spiderRenderer.enabled = false;
@@ -75,7 +77,7 @@ public class SpiderAI : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Spider Attacked Player!");
-
+            gameManager.DamagePlayer();
             gameObject.SetActive(false);
         }
     }
