@@ -17,12 +17,17 @@ public class SpiderAI : MonoBehaviour
     private bool canAttack = false;
 
     [SerializeField] GameManager gameManager;
+    [SerializeField] int spiderDamage = 30;
+
+    [Header("Spider Lifetime")]
+    [SerializeField] private float destroyIfNoPlayerTime = 10f;
+    private bool destroyTimerStarted = false;
 
     void Start()
     {
         spiderRenderer.enabled = false;
-        agent = GetComponent<NavMeshAgent>();
 
+        agent = GetComponent<NavMeshAgent>();
         agent.enabled = false;
     }
 
@@ -47,6 +52,8 @@ public class SpiderAI : MonoBehaviour
                 canChase = true;
 
                 Invoke(nameof(EnableAttack), 1f);
+
+                StartDestroyTimer();
             }
         }
 
@@ -70,6 +77,22 @@ public class SpiderAI : MonoBehaviour
         canAttack = true;
     }
 
+    void StartDestroyTimer()
+    {
+        if (destroyTimerStarted) return;
+
+        destroyTimerStarted = true;
+
+        Invoke(nameof(DestroySpider), destroyIfNoPlayerTime);
+    }
+
+    void DestroySpider()
+    {
+        Debug.Log("Spider did not find the player. Destroying itself.");
+
+        Destroy(gameObject);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!canAttack) return;
@@ -77,8 +100,12 @@ public class SpiderAI : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Spider Attacked Player!");
-            gameManager.DamagePlayer();
-            gameObject.SetActive(false);
+
+            CancelInvoke(nameof(DestroySpider));
+
+            gameManager.DamagePlayer(spiderDamage);
+
+            Destroy(gameObject);
         }
     }
 }

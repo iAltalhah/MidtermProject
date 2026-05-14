@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float speedMulti = 1.8f;
     [SerializeField] float jumpHeight = 5f;
 
+
+    [SerializeField] private GameObject objectToToggle;
+
     public bool canMove = true;
 
     public int gemsCollected = 0;
@@ -27,6 +30,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            objectToToggle.SetActive(!objectToToggle.activeSelf);
+        }
+
         // إذا الحركة مقفلة
         if (!canMove)
         {
@@ -40,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        if (Input.GetKey(KeyCode.LeftShift) && isGrounded && gemsCollected >= 1) speed = walkSpeed * speedMulti;
+        if (Input.GetKey(KeyCode.LeftShift) && isGrounded) speed = walkSpeed * speedMulti;
 
                 else
                 {
@@ -54,10 +62,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 if (canMove)
                 {
-
-                    // Jump
-                    if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-                        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && gemsCollected >= 2)
+                        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && gemsCollected >= 1)
                         {
                             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
                         }

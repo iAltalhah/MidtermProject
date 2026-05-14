@@ -12,6 +12,8 @@ public class DropItemsOff : MonoBehaviour
 
     [SerializeField] Rewind rewind;
 
+    [SerializeField] Animator lastDoor;
+
     public bool CheckTheItem(GameObject gem)
     {
         if (gem == null)
@@ -60,6 +62,11 @@ public class DropItemsOff : MonoBehaviour
         if (playerMovement.gemsCollected >= 3)
         {
             rewind.CanRewind();
+        }
+
+        if(playerMovement.gemsCollected >= 4)
+        {
+            lastDoor.Play("last_door_open");
         }
     }
 }

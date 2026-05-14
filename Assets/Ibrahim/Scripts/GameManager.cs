@@ -198,10 +198,10 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void DamagePlayer()
+    public void DamagePlayer( int spiderDamage)
     {
 
-        timer -= 10;
+        timer -= spiderDamage;
         counterText.text = Mathf.CeilToInt(timer).ToString();
     }
 
