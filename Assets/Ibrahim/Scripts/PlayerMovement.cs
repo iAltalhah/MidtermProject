@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float speedMulti = 1.8f;
     [SerializeField] float jumpHeight = 5f;
 
-
     [SerializeField] private GameObject objectToToggle;
 
     public bool canMove = true;
@@ -22,6 +21,12 @@ public class PlayerMovement : MonoBehaviour
 
     bool isGrounded;
 
+    [Header("Footsteps")]
+    [SerializeField] private AudioSource footstepAudioSource;
+    [SerializeField] private AudioClip footstepClip;
+    [SerializeField] private float walkFootstepInterval = 0.5f;
+
+    private float footstepTimer;
 
     private void Start()
     {
@@ -35,7 +40,6 @@ public class PlayerMovement : MonoBehaviour
             objectToToggle.SetActive(!objectToToggle.activeSelf);
         }
 
-        // إذا الحركة مقفلة
         if (!canMove)
         {
             return;
@@ -48,32 +52,68 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        if (Input.GetKey(KeyCode.LeftShift) && isGrounded) speed = walkSpeed * speedMulti;
+        // Prevent faster diagonal movement
+        if (move.magnitude > 1f)
+        {
+            move.Normalize();
+        }
 
-                else
-                {
-                    speed = walkSpeed;
-                }
+        bool isMoving = move.magnitude > 0.1f;
+        bool isRunning = Input.GetKey(KeyCode.LeftShift) && isGrounded && isMoving;
 
-                // Gravity
-                if (velocity.y < 0 && isGrounded)
-                {
-                    velocity.y = -2;
-                }
-                if (canMove)
-                {
-                        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && gemsCollected >= 1)
-                        {
-                            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
-                        }
+        if (isRunning)
+        {
+            speed = walkSpeed * speedMulti;
+        }
+        else
+        {
+            speed = walkSpeed;
+        }
 
-                    // حركة اللاعب
-                    cc.Move(move * speed * Time.deltaTime);
+        // Gravity
+        if (velocity.y < 0 && isGrounded)
+        {
+            velocity.y = -2;
+        }
 
-                    velocity.y += gravity * Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && gemsCollected >= 1)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+        }
 
-                    cc.Move(velocity * Time.deltaTime);
-                }
-            }
+        // Player movement
+        cc.Move(move * speed * Time.deltaTime);
 
+        velocity.y += gravity * Time.deltaTime;
+
+        cc.Move(velocity * Time.deltaTime);
+
+        HandleFootsteps(isMoving, isRunning);
     }
+
+    private void HandleFootsteps(bool isMoving, bool isRunning)
+    {
+        if (!isGrounded || !isMoving)
+        {
+            footstepTimer = 0.1f;
+            return;
+        }
+
+        footstepTimer -= Time.deltaTime;
+
+        if (footstepTimer <= 0f)
+        {
+            footstepAudioSource.PlayOneShot(footstepClip);
+
+            if (isRunning)
+            {
+                // Running plays footsteps twice as fast
+                footstepTimer = walkFootstepInterval / 2f;
+            }
+            else
+            {
+                footstepTimer = walkFootstepInterval;
+            }
+        }
+    }
+}
