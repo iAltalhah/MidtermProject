@@ -14,6 +14,9 @@ public class DropItemsOff : MonoBehaviour
 
     [SerializeField] Animator lastDoor;
 
+
+    [SerializeField] GameObject jumpText;
+    [SerializeField] GameObject rewindText;
     public bool CheckTheItem(GameObject gem)
     {
         if (gem == null)
@@ -59,8 +62,15 @@ public class DropItemsOff : MonoBehaviour
         Debug.Log("Placed item: " + gem.name);
         playerMovement.gemsCollected++;
 
-        if (playerMovement.gemsCollected >= 3)
+        if (playerMovement.gemsCollected >= 1)
         {
+            jumpText.SetActive(true);
+        }
+
+
+        if (playerMovement.gemsCollected >= 2)
+        {
+            rewindText.SetActive(true);
             rewind.CanRewind();
         }
 

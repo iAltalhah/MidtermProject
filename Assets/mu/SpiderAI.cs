@@ -18,6 +18,7 @@ public class SpiderAI : MonoBehaviour
 
     [SerializeField] GameManager gameManager;
     [SerializeField] int spiderDamage = 30;
+    [SerializeField] Animator animator;
 
     [Header("Spider Lifetime")]
     [SerializeField] private float destroyIfNoPlayerTime = 10f;
@@ -67,6 +68,7 @@ public class SpiderAI : MonoBehaviour
     public void StartDrop()
     {
         spiderRenderer.enabled = true;
+        animator.enabled = true;
         isDropping = true;
 
         Debug.Log("Spider Dropped!");
@@ -95,7 +97,6 @@ public class SpiderAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!canAttack) return;
 
         if (other.CompareTag("Player"))
         {

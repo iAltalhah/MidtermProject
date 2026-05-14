@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour
             counterText.text = Mathf.CeilToInt(timer).ToString();
         }
 
-        if (timer <= 150f && nightTransitionStarted == false)
+        if (timer <= 153f && nightTransitionStarted == false)
         {
             nightTransitionStarted = true;
 
@@ -95,7 +96,7 @@ public class GameManager : MonoBehaviour
         if (timer <= 0)
         {
             // Game over logic
-            Debug.Log("DIE!!!!!");
+            GameLost();
         }
     }
 
@@ -140,10 +141,6 @@ public class GameManager : MonoBehaviour
 
         EnablePlayerComponents();
 
-        if(numberOfDays <= 0)
-        {
-            GameLost();
-        }
     }
 
     private void StartAmbientLightTransition(float targetIntensity)
@@ -195,7 +192,7 @@ public class GameManager : MonoBehaviour
 
     public void GameLost()
     {
-
+        SceneManager.LoadScene("GameOver");
     }
 
     public void DamagePlayer( int spiderDamage)
