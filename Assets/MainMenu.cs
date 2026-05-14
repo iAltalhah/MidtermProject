@@ -12,6 +12,9 @@ public class MainMenu : MonoBehaviour
     [Header("Name Input")]
     public TMP_InputField nameInput;
 
+    [Header("MiniMap Dropdown")]
+    public TMP_Dropdown minimapDropdown;
+
     // فتح الستنق
     public void OpenSettings()
     {
@@ -53,6 +56,11 @@ public class MainMenu : MonoBehaviour
         }
 
         PlayerPrefs.SetString("PlayerName", playerName);
+
+
+        // حفظ اختيار الميني ماب
+        PlayerPrefs.SetInt("MiniMapPosition", minimapDropdown.value);
+        Debug.Log("Saved = " + minimapDropdown.value);
 
         SceneManager.LoadScene("MainScene");
     }
