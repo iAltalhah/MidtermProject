@@ -17,7 +17,6 @@ public class DropItemsOff : MonoBehaviour
 
     [SerializeField] GameObject jumpText;
     [SerializeField] GameObject rewindText;
-    [SerializeField] AudioSource doorSource;
     public bool CheckTheItem(GameObject gem)
     {
         if (gem == null)
@@ -78,7 +77,6 @@ public class DropItemsOff : MonoBehaviour
         if(playerMovement.gemsCollected >= 4)
         {
             lastDoor.Play("last_door_open");
-            doorSource.Play();
         }
     }
 }

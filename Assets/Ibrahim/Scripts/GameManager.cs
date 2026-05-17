@@ -29,9 +29,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Animator door2Anim;
 
-    [SerializeField] AudioSource nightSound;
-    [SerializeField] AudioSource windSound;
-    
     public TextMeshProUGUI daysLeft;
 
 
@@ -81,8 +78,7 @@ public class GameManager : MonoBehaviour
             nightTransitionStarted = true;
 
             dayCycleAnim.SetBool("toNight", true);
-            nightSound.Play();
-            windSound.Play();
+
             StartAmbientLightTransition(nightAmbientIntensity);
         }
 
@@ -116,9 +112,6 @@ public class GameManager : MonoBehaviour
         FadeAnimator.Play("FadeIn");
 
         yield return new WaitForSeconds(1);
-
-        nightSound.Stop();
-        windSound.Stop();
 
         timer = dailyCountDown;
         counterText.text = Mathf.CeilToInt(timer).ToString();

@@ -13,10 +13,6 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] private Transform tilesParent;
     private Collider[] tileColliders;
 
-    [SerializeField] AudioSource doorSound;
-    [SerializeField] AudioSource wrongSound;
-    [SerializeField] AudioSource correct;
-
     void Awake()
     {
         instance = this;
@@ -32,7 +28,6 @@ public class PuzzleManager : MonoBehaviour
         if (number == correctOrder[currentIndex])
         {
             Debug.Log("Correct!");
-            correct.Play();
 
             currentIndex++;
 
@@ -47,7 +42,7 @@ public class PuzzleManager : MonoBehaviour
         else
         {
             Debug.Log("Wrong Order!");
-            wrongSound.Play();
+
             currentIndex = 0;
         }
     }
@@ -55,7 +50,6 @@ public class PuzzleManager : MonoBehaviour
     void OpenDoor()
     {
         door3Anim.Play("door3Open");
-        doorSound.Play();
     }
 
     void DisableAllTileCollisions()

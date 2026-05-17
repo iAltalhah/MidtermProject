@@ -15,9 +15,9 @@ public class EndingText : MonoBehaviour
         secondText.SetActive(false);
         mainMenuButton.SetActive(false);
 
-        Invoke("ShowFirstText", 5f);
-        Invoke("ShowSecondText", 10f);
-        Invoke("ShowButton", 13f);
+        Invoke("ShowFirstText", 3f);
+        Invoke("ShowSecondText", 7f);
+        Invoke("ShowButton", 10f);
     }
 
     void ShowFirstText()
