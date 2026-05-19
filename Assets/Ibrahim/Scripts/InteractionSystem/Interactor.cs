@@ -6,10 +6,9 @@ public class Interactor : MonoBehaviour
     [SerializeField] float interactionRange = 2f;
     [SerializeField] KeyCode interactionKey = KeyCode.E; // maybe we can change it
     [SerializeField] InteractionPromptUI promptUI;
+    [SerializeField] LayerMask layerMask;
 
     IInteractable currentInteractable; // to check which interactable is it
-
-
 
     void Update()
     {
@@ -26,12 +25,11 @@ public class Interactor : MonoBehaviour
     {
         Ray ray = new Ray(interactionSource.position, interactionSource.forward); // create raycast and its range
 
-        if (Physics.Raycast(ray, out RaycastHit hit, interactionRange)) // hit is the object we are hitting with the ray
+        if (Physics.Raycast(ray, out RaycastHit hit, interactionRange, layerMask)) // hit is the object we are hitting with the ray
         {
-            IInteractable interactable = hit.collider.GetComponentInParent<IInteractable>(); // we define a new var and assign the interactable conponent to it
+            IInteractable interactable = hit.collider.GetComponent<IInteractable>(); // we define a new var and assign the interactable conponent to it
 
-
-            if (interactable != null && interactable.CanInteract())
+            if (interactable != null)
             {
                 if (interactable != currentInteractable)
                 {

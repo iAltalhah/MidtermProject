@@ -9,15 +9,9 @@ public class Interactable : MonoBehaviour, IInteractable
 
     public string InteractionPrompt => interactablePrompt;
 
-    public bool CanInteract()
-    {
-        return isEnabled;
-    }
 
     public void Interact()
     {
-        if (!CanInteract())
-            return;
 
         onInteract?.Invoke();
     }

@@ -19,11 +19,6 @@ public class StonePuzzle : MonoBehaviour, IInteractable
 
     public string InteractionPrompt => prompt;
 
-    public bool CanInteract()
-    {
-        return true;
-    }
-
     public void Interact()
     {
         TryPlaceStone();

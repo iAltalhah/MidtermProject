@@ -8,6 +8,9 @@ public class Rewind : MonoBehaviour
 
     [SerializeField] float rewindDuration = 0.5f;
 
+    [SerializeField] AudioSource rewaindSound;
+    [SerializeField] Animator rewindAnim;
+
     CharacterController characterController;
     PlayerMovement playerMovement;
 
@@ -30,6 +33,8 @@ public class Rewind : MonoBehaviour
     {
         if (Input.GetKeyDown(rewindKey) && !isRewinding && canRewind)
         {
+            rewaindSound.Play();
+            rewindAnim.Play("rewindAnim", 0, 0f);
             StartCoroutine(RewindToAnchor());
         }
     }
