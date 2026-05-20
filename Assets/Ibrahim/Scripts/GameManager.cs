@@ -1,3 +1,4 @@
+using MoreMountains.Feedbacks;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -32,6 +33,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioSource rumbling;
     [SerializeField] GameObject handGO;
     [SerializeField] bool isRumbling;
+
+    [SerializeField] MMF_Player nightShakeFeedback;
 
     public TextMeshProUGUI daysLeft;
 
@@ -87,11 +90,11 @@ public class GameManager : MonoBehaviour
         }
 
         // timer color changes when it decreases
-        if (timer < 45 && isRumbling == false)
+        if (timer < 60 && isRumbling == false)
         {
             StartRumbling();
         }
-        if (timer < 45 )
+        if (timer < 60 )
         {
             counterText.color = Color.red;
         }
@@ -113,6 +116,7 @@ public class GameManager : MonoBehaviour
         isRumbling = true;
         rumbling.Play();
         handGO.SetActive(true);
+        nightShakeFeedback.PlayFeedbacks();
     }
 
     public void ResetTheDay()
@@ -125,7 +129,7 @@ public class GameManager : MonoBehaviour
         DisablePlayerComponents();
 
         FadeAnimator.Play("FadeIn");
-
+        nightShakeFeedback.StopFeedbacks();
         yield return new WaitForSeconds(1);
 
         isRumbling = false;
