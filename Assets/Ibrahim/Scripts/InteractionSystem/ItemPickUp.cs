@@ -5,6 +5,8 @@ public class ItemPickUp : MonoBehaviour
     [SerializeField] PlayerHand playerHand;
     [SerializeField] Animator animator;
 
+    [SerializeField] AudioSource doorSound;
+
     Transform originalParent;
     Vector3 originalPosition;
     Quaternion originalRotation;
@@ -32,6 +34,7 @@ public class ItemPickUp : MonoBehaviour
         if (gameObject.name == "Gem2")
         {
             animator.Play("closeDooe1");
+            doorSound.Play();
         }
     }
 
@@ -51,6 +54,7 @@ public class ItemPickUp : MonoBehaviour
         if (gameObject.name == "Gem2")
         {
             animator.Play("door1Open");
+            doorSound.Play();
         }
 
         Debug.Log("Returned item to original position: " + gameObject.name);

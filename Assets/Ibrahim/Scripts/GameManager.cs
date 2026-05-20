@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Animator door2Anim;
 
+    [SerializeField] AudioSource rumbling;
+    [SerializeField] GameObject handGO;
+    [SerializeField] bool isRumbling;
+
     public TextMeshProUGUI daysLeft;
 
 
@@ -73,7 +77,7 @@ public class GameManager : MonoBehaviour
             counterText.text = Mathf.CeilToInt(timer).ToString();
         }
 
-        if (timer <= 153f && nightTransitionStarted == false)
+        if (timer <= 123f && nightTransitionStarted == false)
         {
             nightTransitionStarted = true;
 
@@ -83,7 +87,11 @@ public class GameManager : MonoBehaviour
         }
 
         // timer color changes when it decreases
-        if (timer < 30)
+        if (timer < 45 && isRumbling == false)
+        {
+            StartRumbling();
+        }
+        if (timer < 45 )
         {
             counterText.color = Color.red;
         }
@@ -100,6 +108,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void StartRumbling()
+    {
+        isRumbling = true;
+        rumbling.Play();
+        handGO.SetActive(true);
+    }
+
     public void ResetTheDay()
     {
         StartCoroutine(FadeInDelay());
@@ -112,6 +127,11 @@ public class GameManager : MonoBehaviour
         FadeAnimator.Play("FadeIn");
 
         yield return new WaitForSeconds(1);
+
+        isRumbling = false;
+        rumbling.Stop();
+        handGO.SetActive(false);
+
 
         timer = dailyCountDown;
         counterText.text = Mathf.CeilToInt(timer).ToString();

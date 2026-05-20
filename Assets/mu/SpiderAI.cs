@@ -19,6 +19,7 @@ public class SpiderAI : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] int spiderDamage = 30;
     [SerializeField] Animator animator;
+    [SerializeField] AudioSource spiderSound;
 
     [Header("Spider Lifetime")]
     [SerializeField] private float destroyIfNoPlayerTime = 10f;
@@ -70,7 +71,7 @@ public class SpiderAI : MonoBehaviour
         spiderRenderer.enabled = true;
         animator.enabled = true;
         isDropping = true;
-
+        spiderSound.Play();
         Debug.Log("Spider Dropped!");
     }
 
