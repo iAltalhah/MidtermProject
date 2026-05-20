@@ -6,6 +6,6 @@ public class HandBehave : MonoBehaviour
 
     private void OnEnable()
     {
-        animator.Play("");
+        animator.Play("handMoving");
     }
 }
