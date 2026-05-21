@@ -3,6 +3,7 @@ using UnityEngine;
 public class CollectingMap : MonoBehaviour, IInteractable
 {
     [SerializeField] GameObject relatedMap;
+    [SerializeField] AudioSource paperSound;
     public string InteractionPrompt => throw new System.NotImplementedException();
 
     public bool CanInteract()
@@ -14,6 +15,7 @@ public class CollectingMap : MonoBehaviour, IInteractable
     {
         relatedMap.SetActive(false);
         Destroy(gameObject);
+        paperSound.Play();
     }
 
 

@@ -7,6 +7,10 @@ public class ItemPickUp : MonoBehaviour
 
     [SerializeField] AudioSource doorSound;
 
+
+    [SerializeField] AudioSource grapSound;
+    [SerializeField] AudioSource dropItemSound;
+
     Transform originalParent;
     Vector3 originalPosition;
     Quaternion originalRotation;
@@ -30,6 +34,8 @@ public class ItemPickUp : MonoBehaviour
 
         playerHand.HoldItem(gameObject);
         isPickedUp = true;
+
+        grapSound.Play();
 
         if (gameObject.name == "Gem2")
         {

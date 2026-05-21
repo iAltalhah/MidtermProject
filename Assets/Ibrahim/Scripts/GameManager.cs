@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject handGO;
     [SerializeField] bool isRumbling;
 
+    [SerializeField] AudioSource door1Sound;
     [SerializeField] MMF_Player nightShakeFeedback;
 
     public TextMeshProUGUI daysLeft;
@@ -65,6 +66,8 @@ public class GameManager : MonoBehaviour
         if (stoneCount >= 3)
         {
             door2Anim.Play("door2Open");
+            door1Sound.Play();
+
         }
 
 
