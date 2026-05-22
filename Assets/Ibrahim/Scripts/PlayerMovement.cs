@@ -16,7 +16,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] AudioClip[] footstepClips;
     [SerializeField] float walkStepInterval = 0.45f;
     [SerializeField] float runStepInterval = 0.25f;
+    [SerializeField] float footstepGroundGraceTime = 0.15f;
+    [SerializeField] float minimumFootstepGap = 0.08f;
 
+    float lastGroundedTime;
+    float lastFootstepTime;
     public bool canMove = true;
     public int gemsCollected = 0;
 
@@ -27,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
 
     float footstepTimer;
     bool isRunning;
+    bool wasMoving;
+    bool wasRunningLastFrame;
 
     private void Start()
     {
@@ -42,10 +48,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (!canMove)
         {
+            ResetFootsteps();
             return;
         }
 
         isGrounded = cc.isGrounded;
+
+        if (isGrounded)
+        {
+            lastGroundedTime = Time.time;
+        }
 
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
@@ -54,38 +66,61 @@ public class PlayerMovement : MonoBehaviour
 
         isRunning = Input.GetKey(KeyCode.LeftShift) && isGrounded;
 
-        if (isRunning) speed = walkSpeed * speedMulti;
-        else speed = walkSpeed;
-
+        if (isRunning)
+            speed = walkSpeed * speedMulti;
+        else
+            speed = walkSpeed;
 
         if (velocity.y < 0 && isGrounded)
             velocity.y = -2f;
 
-        if (canMove)
-        {
-            if (Input.GetKeyDown(KeyCode.Space) && isGrounded && gemsCollected >= 1)
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && gemsCollected >= 1)
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
-            velocity.y += gravity * Time.deltaTime;
+        velocity.y += gravity * Time.deltaTime;
 
-            Vector3 totalMove = (move * speed + velocity) * Time.deltaTime;
-            cc.Move(totalMove);
-        }
+        Vector3 totalMove = (move * speed + velocity) * Time.deltaTime;
+        cc.Move(totalMove);
 
         HandleFootsteps(x, z);
     }
 
-    /// <summary>
-    /// Plays footstep audio at a regular interval when the player is grounded and moving.
-    /// </summary>
     private void HandleFootsteps(float x, float z)
     {
-        bool isMoving = (Mathf.Abs(x) > 0.1f || Mathf.Abs(z) > 0.1f) && isGrounded;
+        bool hasMovementInput = Mathf.Abs(x) > 0.1f || Mathf.Abs(z) > 0.1f;
 
-        if (!isMoving)
+        // This prevents tiny bumps/slopes from breaking the footstep logic
+        bool recentlyGrounded = isGrounded || Time.time - lastGroundedTime <= footstepGroundGraceTime;
+
+        if (!hasMovementInput)
         {
-            footstepTimer = 0.1f;
+            ResetFootsteps();
             return;
+        }
+
+        // If the player is really in the air, do not play footsteps,
+        // but also do not reset wasMoving immediately.
+        if (!recentlyGrounded)
+        {
+            return;
+        }
+
+        // First step happens immediately when player starts moving
+        if (!wasMoving)
+        {
+            PlayRandomFootstep();
+            footstepTimer = isRunning ? runStepInterval : walkStepInterval;
+
+            wasMoving = true;
+            wasRunningLastFrame = isRunning;
+            return;
+        }
+
+        // When switching between walking and running, reset timing
+        if (isRunning != wasRunningLastFrame)
+        {
+            footstepTimer = 0f;
+            wasRunningLastFrame = isRunning;
         }
 
         footstepTimer -= Time.deltaTime;
@@ -97,10 +132,23 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void ResetFootsteps()
+    {
+        footstepTimer = 0.02f;
+        wasMoving = false;
+        wasRunningLastFrame = false;
+    }
+
     private void PlayRandomFootstep()
     {
         if (footstepClips == null || footstepClips.Length == 0 || footstepAudioSource == null)
             return;
+
+        // Prevents tiny repeated double-steps
+        if (Time.time - lastFootstepTime < minimumFootstepGap)
+            return;
+
+        lastFootstepTime = Time.time;
 
         AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
         footstepAudioSource.PlayOneShot(clip);
